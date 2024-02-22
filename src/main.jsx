@@ -2,6 +2,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+
+// errors
+import ErrorPage from './error-page'
+
+// routes
 import Root from './routes/root'
 
 import './index.css';
@@ -9,7 +14,8 @@ import './index.css';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />
+    element: <Root />,
+    errorElement: <ErrorPage />
   },
 ]);
 
