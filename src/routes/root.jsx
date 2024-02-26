@@ -1,3 +1,5 @@
+import { useEffect, useCallback } from 'react'
+
 import {
   Outlet,
   NavLink,
@@ -5,6 +7,7 @@ import {
   Form,
   redirect,
   useNavigation,
+  useSubmit,
 } from 'react-router-dom'
 
 import { getContacts, createContact } from '../contacts'
@@ -26,6 +29,22 @@ export async function loader({ request }) {
 export default function Root() {
   const { contacts, query } = useLoaderData()
   const navigation = useNavigation()
+  const submit = useSubmit()
+
+  useEffect(() => {
+    document.getElementById('q').value = query
+  }, [query])
+
+  const onSearchChange = useCallback(
+    (event) => {
+      submit(event.currentTarget.form)
+    },
+    [submit]
+  )
+
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has('q')
 
   return (
     <>
@@ -37,11 +56,13 @@ export default function Root() {
               id="q"
               aria-label="Search contacts"
               placeholder="Search"
+              className={searching ? 'loading' : ''}
               type="search"
               name="q"
               defaultValue={query}
+              onChange={onSearchChange}
             />
-            <div id="search-spinner" aria-hidden hidden={true} />
+            <div id="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
           <Form method="post">
