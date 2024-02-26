@@ -37,7 +37,11 @@ export default function Root() {
 
   const onSearchChange = useCallback(
     (event) => {
-      submit(event.currentTarget.form)
+      const isFirstSearch = query == null
+
+      submit(event.currentTarget.form, {
+        replace: !isFirstSearch,
+      })
     },
     [submit]
   )
