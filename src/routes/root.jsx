@@ -15,15 +15,16 @@ export async function action() {
   return redirect(`/contacts/${contact.id}/edit`)
 }
 
-export async function loader() {
-  console.log('load new data')
+export async function loader({ request }) {
+  const url = new URL(request.url)
+  const query = url.searchParams.get('q')
 
-  const contacts = await getContacts()
-  return { contacts }
+  const contacts = await getContacts(query)
+  return { contacts, query }
 }
 
 export default function Root() {
-  const { contacts } = useLoaderData()
+  const { contacts, query } = useLoaderData()
   const navigation = useNavigation()
 
   return (
@@ -31,17 +32,18 @@ export default function Root() {
       <div id="sidebar">
         <h1>React Router Contacts</h1>
         <div>
-          <form id="search-form" role="search">
+          <Form id="search-form" role="search">
             <input
               id="q"
               aria-label="Search contacts"
               placeholder="Search"
               type="search"
               name="q"
+              defaultValue={query}
             />
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
-          </form>
+          </Form>
           <Form method="post">
             <button type="submit">New</button>
           </Form>
