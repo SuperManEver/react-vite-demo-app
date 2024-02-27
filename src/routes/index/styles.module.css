@@ -1,0 +1,10 @@
+.root {
+  margin: 4rem;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 500px;
+  gap: 1rem;
+}
