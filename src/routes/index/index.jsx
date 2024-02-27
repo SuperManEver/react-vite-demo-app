@@ -1,5 +1,7 @@
 import { Suspense, lazy } from 'react'
 
+import Large from '../../components/large'
+
 import css from './styles.module.css'
 
 async function delay() {
@@ -23,12 +25,15 @@ export default function Index() {
       </p>
 
       <section className={css.wrapper}>
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense fallback={<div>Loading...</div>}>
           <LazyLarge />
         </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
           <LazyLarge />
-        </Suspense>
+        </Suspense> */}
+        {/* 
+        <Large />
+        <Large /> */}
       </section>
     </main>
   )
