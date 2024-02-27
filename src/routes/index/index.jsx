@@ -1,6 +1,16 @@
-import Large from '../../components/large'
+import { Suspense, lazy } from 'react'
 
 import css from './styles.module.css'
+
+async function delay() {
+  return new Promise((resolve) => setTimeout(() => resolve(true), 3000))
+}
+
+const LazyLarge = lazy(async () => {
+  await delay()
+
+  return import('../../components/large')
+})
 
 export default function Index() {
   return (
@@ -13,8 +23,12 @@ export default function Index() {
       </p>
 
       <section className={css.wrapper}>
-        <Large />
-        <Large />
+        <Suspense fallback={<div>Loading...</div>}>
+          <LazyLarge />
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <LazyLarge />
+        </Suspense>
       </section>
     </main>
   )
